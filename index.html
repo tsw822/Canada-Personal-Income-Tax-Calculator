@@ -1,0 +1,248 @@
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="js/echarts.min.js"></script>
+    <link rel="shortcut icon" type="image/icon" href="icon2.png"/>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootsnav.css" >	
+    <link rel="stylesheet" href="css/main.css" >	
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/flaticon.css">
+    
+    <title>Income Tax Calculator - Canada</title>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-default bootsnav navbar-fixed dark no-background" id="nav">
+    
+            <div class="container">
+    
+                <!-- Start Header Navigation -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
+                        <i class="fa fa-bars"></i>
+                    </button>
+                    <a class="navbar-brand" href="index.html">Canada Personal Income Tax Calculator</a>
+                    <p id="nav_p" style="font-style: italic; font-family: 'Poppins', sans-serif; text-align: center;">Easy Use & Visualized Comparision</p>
+                </div><!--/.navbar-header-->
+                <!-- End Header Navigation -->
+    
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse menu-ui-design" id="navbar-menu">
+                    <ul class="nav navbar-nav navbar-right" data-in="fadeInDown" data-out="fadeOutUp" id="nav1">
+                    <li class=" smooth-menu active"></li>
+                        <li class=" smooth-menu" ><a href="#RateCompare" id="nav1">Compare Tax Rate</a></li>
+                        <li class=" smooth-menu" ><a href="#about" id="nav2">About</a></li>
+                        <!-- <li class="smooth-menu" ><a href="#contact" id="nav3">Contact</a></li> -->
+                    </ul><!--/.nav -->
+                </div><!-- /.navbar-collapse -->
+            </div><!--/.container-->
+        </nav><!--/nav-->
+        <!-- End Navigation -->
+    </header>
+    <section id="incomeSec">       
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-3">
+                    <label for="income" class="form-label">Annually Taxiable Income</label>
+                    <input type="number" class="form-control" id="income" aria-describedby="incomeHelp"  onkeydown="focusNext(event)">
+                    <div id="incomeHelp" class="form-text">* The portion of income used to calculate tax in a given tax year</div>
+                </div>
+                <div class="col-sm-3">
+                    <label for="deducted" class="form-label">Tax Credit</label>
+                    <input type="email" class="form-control" id="deducted" aria-describedby="deductedHelp"  onkeydown="focusNext(event)">
+                    <div id="deductedHelp" class="form-text">* The amount of money that taxpayers can subtract directly from taxes.</div>
+                </div>
+                <div class="col-sm-3">
+                    <label for="year" class="form-label">Tax Year</label>
+                    <select class="form-control" id="year" onkeydown="focusNext(event)">
+                        <option>2021</option>
+                        <option>2020</option>
+                        <option>2019</option>
+                        <option>2018</option>
+                        <option>2017</option>
+                        <option>2016</option>
+                        <option>2015</option>
+                    </select>
+                </div>
+                <div class="col-sm-3">
+                    <label for="province" class="form-label">Province</label>
+                    <select class="form-control" id="province" onkeydown="focusNext(event)">
+                        <option value="AB">Alberta (AB)</option>
+                        <option value="BC">British Columbia (BC)</option>
+                        <option value="MB">Manitoba (MB)</option>
+                        <option value="NB">New Brunswick (NB)</option>
+                        <option value="NL">New Foundland and Labrador (NL)</option>
+                        <option value="NT">Northwest Territories (NT)</option>
+                        <option value="NS">Nova Scotia (NS)</option>
+                        <option value="NU">Nunavut (NU)</option>
+                        <option value="ON">Ontario (ON)</option>
+                        <option value="PE">Prince Edward Island(PE)</option>
+                        <option value="QC">Quebec (QC)</option>
+                        <option value="SK">Saskatchewan (SK)</option>
+                        <option value="YT">Yukon (YT)</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-6" id="buttonContainer">
+                    <a id="calculate" href="#">Calculate Your Tax </a>
+                </div>
+            </div>
+        </div>  
+    </section>
+    <section class="result">
+        <div class="section-heading text-center">
+            <h2>Result</h2>
+        </div>
+        <div class="line"></div>
+        <div class="container">
+                <div class="row">
+                    <div class="col-sm-5" id="result-text-div">
+                        <p class="result-text">
+                        Province Tax : $</span> 
+                        <span id="taxOn">0</span>
+                        </p>
+                    
+                        <p class="result-text">
+                        Federal Tax : $</span> 
+                        <span id="taxFe">0</span>
+                        </p>
+                    
+                        <p class="result-text">
+                        Total Tax : $</span> 
+                        <span id="taxTotal">0</span>
+                        </p>
+                    
+                        <p class="result-text">
+                        Owing : $</span> 
+                        <span id="taxOwing">0</span>
+                        </p>
+                    </div>
+                    <div class="col-sm-7">
+                        <div id="pieChart" style="width: 550px;height:550px;"></div>
+                    </div>
+                </div>
+        </div>
+    </section>
+    <section class="IncomeCompare">
+        <div class="section-heading text-center">
+            <h2>Compare your Income Tax Within Provinces</h2>
+        </div>
+        <div class="line"></div>
+        <div class="container">
+                <div class="row justify-content-center">
+                    <div id="barChart" style="width: 1000px;height:450px;"></div>
+                </div>
+        </div>
+    </section>
+    <section class="RateCompare" id="RateCompare">
+        <div class="section-heading text-center">
+            <h2>Compare Tax Rate and Branket Within Provinces</h2>
+        </div>
+        <div class="line"></div>
+        <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-sm-3">
+                        <p></p>
+                    </div>
+                    <div class="col-sm-3">
+                        <select class="form-control" id="check-year" onkeydown="focusNext(event)">
+                            <option>2021</option>
+                            <option>2020</option>
+                            <option>2019</option>
+                            <option>2018</option>
+                            <option>2017</option>
+                            <option>2016</option>
+                            <option>2015</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-3" id="checkContainer">
+                        <a id="check" href="#">Check </a>                            
+                    </div>
+                </div>
+                    <div id="comboChart" style="width: 1000px;height:500px;"></div>
+        </div>
+    </section>
+    		<!--about start -->
+		<section id="about" class="about">
+			<div class="section-heading text-center">
+				<h2>About</h2>
+			</div>
+            <div class="line"></div>
+			<div class="container">
+				<div class="about-content">
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="single-about-txt">
+								<h3>
+									I'm a developer and designer for application and website. I'm always be passion with deliver quality solutions and creation. 
+								</h3>
+								<p>
+									The idea of creating a Personal Income Tax Calculator firstly comes from my own need to simply calculate and compare tax. There are a lot of tax tools online, but mostly focus on helping with tax form filling up, and so many of them are too complicated for non-professionals or showing different provinces tax rates in many different pages that makes comparision not friendly. Thus, I try to create a easy-use tax calculator with vasulized comparision by collecting official data from government website and developing an one-page website. I hope it's helpful and you will enjoy it.
+								</p>
+								<div class="row">
+									<div class="col-sm-4">
+										<div class="single-about-add-info">
+											<h3>phone</h3>
+											<p>647-989-5889</p>
+										</div>
+									</div>
+									<div class="col-sm-4">
+										<div class="single-about-add-info">
+											<h3>email</h3>
+											<p>tsw822@gmail.com</p>
+										</div>
+									</div>
+									<div class="col-sm-4">
+										<div class="single-about-add-info">
+											<h3>location</h3>
+											<p>Waterloo,ON,Canada</p>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-offset-1 col-sm-5">
+							<div class="single-about-img">
+								<img src="me-portfolio.jpg" alt="profile_image">
+								<div class="about-list-icon">
+									<ul>
+										<li>
+											<a href="https://www.facebook.com/kardia.tan">
+												<i  class="fa fa-facebook" aria-hidden="true"></i>
+											</a>
+										</li>
+										<li>
+											<a href="https://tsw8223.wixsite.com/my-portfolio">
+												<i  class="fa fa-dribbble" aria-hidden="true"></i>
+											</a>
+										</li>
+										<li>
+											<a href="https://twitter.com/Shuwen24828181">
+												<i  class="fa fa-twitter" aria-hidden="true"></i>
+											</a>
+										</li>
+										<li>
+											<a href="https://www.linkedin.com/in/shuwen-tan-12747118b/">
+												<i  class="fa fa-linkedin" aria-hidden="true"></i>
+											</a>
+										</li>
+									</ul><!-- / ul -->
+								</div><!-- /.about-list-icon -->
+
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</section><!--/.about-->
+		<!--about end -->
+
+    <script src="js/macarons.js"></script>
+    <script type="module" src="js/main.js"></script>
+    <!-- <script type="text/javascript" src="displayChart.js"></script> -->
+    <script src="js/script.js"></script>
+</body>
